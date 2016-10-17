@@ -5,6 +5,12 @@
  */
 
 import React, { Component } from 'react';
+import PgButton from './js/pgButton.js';
+
+var PROGRESS_BUTTON_TIME_INTERVAL = 1200;
+var PROGRESS_BUTTON_COLORS = ['rgb(255,255,255)', 'rgb(124,142,162)'];
+var PROGRESS_BUTTON_STATES = ['Submit', 'Sending', 'Sent'];
+
 import {
   AppRegistry,
   StyleSheet,
@@ -13,19 +19,21 @@ import {
 } from 'react-native';
 
 export default class ProgressButton extends Component {
+  
+  buttonPressed() {
+    console.log("Hello button Pressed");
+  }
+  
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <PgButton
+          style={styles.requestButton}
+          onPress={() => this.buttonPressed()}
+          progressDuration={1200}
+          progressColors={PROGRESS_BUTTON_COLORS}
+          states={PROGRESS_BUTTON_STATES}
+        />
       </View>
     );
   }
@@ -38,15 +46,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  requestButton: {
+    height: 50,
+    width: 150,
+    marginLeft: -2,
+    backgroundColor: '#435e7c',
+    justifyContent: 'center',
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
   },
 });
 
