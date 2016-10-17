@@ -11,7 +11,7 @@ import {
 
 var DEFAULT_ACTION_TIMER = 1200;
 var DEFAULT_PROGRESS_COLORS = ['rgb(255,255,255)', 'rgb(124,142,162)'];
-var DEFAULT_STATES = ['Submit', 'Sending', 'Sent'];
+var DEFAULT_STATES = ['Submit', 'Sending...', 'Sent'];
 
 class PgButton extends Component {
 
@@ -21,7 +21,7 @@ class PgButton extends Component {
     this.state = {
       pressAction: new Animated.Value(0),
       requestButtonTitle: states[0],
-      buttonStates: states
+      buttonStates: states,
     };
   }
 
@@ -31,8 +31,8 @@ class PgButton extends Component {
     });
     let timerDuration = this.props.progressDuration ? this.props.progressDuration : DEFAULT_ACTION_TIMER
     Animated.timing(this.state.pressAction, {
-        duration: timerDuration,
-        toValue: 1
+      duration: timerDuration,
+      toValue: 1
     }).start(this.animationActionComplete);
 
     setTimeout(() => {
@@ -49,7 +49,6 @@ class PgButton extends Component {
   getButtonWidthLayout = (e) => {
     this.setState({
         buttonWidth: e.nativeEvent.layout.width,
-        buttonHeight: e.nativeEvent.layout.height + 25
     });
   }
 
@@ -64,7 +63,7 @@ class PgButton extends Component {
     })
     return {
         width: width,
-        height: this.state.buttonHeight,
+        height: this.props.progressShadowHeight,
         backgroundColor: bgColor
     }
   }
@@ -74,15 +73,13 @@ class PgButton extends Component {
     return (
       <TouchableOpacity
         disabled={(this.state.requestButtonEnabled === false) ? true : false}
-        style={styles.requestButton}
-        onPress={() => this.requestPressed()}
-        underlayColor='#55879F'>
+        style={this.props.style}
+        onPress={() => this.requestPressed()}>
 
         <View style={styles.button} onLayout={this.getButtonWidthLayout}>
           <Animated.View style={[styles.bgFill, this.getProgressStyles() ]} />
           <Text style={[styles.buttonText]}>{this.state.requestButtonTitle}</Text>
         </View>
-        
       </TouchableOpacity>
     );
   }
@@ -91,30 +88,16 @@ class PgButton extends Component {
 export default PgButton;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#E3E7EC',
-    flex: 1,
-    borderRadius: 10,
-  },
   buttonText: {
     fontSize: 18,
     color: 'white',
     alignSelf: 'center',
     backgroundColor: 'transparent'
   },
-  requestButton: {
-    height: 50,
-    width: 150,
-    marginLeft: -2,
-    backgroundColor: '#435e7c',
-    justifyContent: 'center',
-    borderTopRightRadius: 4,
-    borderBottomRightRadius: 4,
-  },
   bgFill: {
     position: 'absolute',
-    top: -12.5,
+    top: -14.5,
     left: 0,
+    borderRadius: 4,
   },
-
 });
