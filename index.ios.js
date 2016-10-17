@@ -18,13 +18,28 @@ import {
 
 export default class ProgressButton extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: null,
+    };
+  }
+
   buttonPressed() {
-    console.log("Hello button Pressed");
+    this.setState({
+      message: "Action Completed!!"
+    });
+    setTimeout(() => {
+      this.setState({
+        message: null
+      });
+    }, 500);
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.actionText}> {this.state.message} </Text>
         <PgButton
           style={styles.submitButton}
           onPress={() => this.buttonPressed()}
@@ -85,6 +100,12 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginTop: 30,
   },
+  actionText: {
+    fontSize: 35,
+    color: '#4286f4',
+    marginBottom: 40,
+    fontWeight: 'bold'
+  }
 });
 
 AppRegistry.registerComponent('ProgressButton', () => ProgressButton);
