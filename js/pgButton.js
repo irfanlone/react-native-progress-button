@@ -17,7 +17,7 @@ class PgButton extends Component {
 
   constructor(props) {
     super(props);
-    let states = this.props.states ? this.props.states : DEFAULT_STATES;
+    let states = this.props.states;
     this.state = {
       pressAction: new Animated.Value(0),
       requestButtonTitle: states[0],
@@ -29,7 +29,7 @@ class PgButton extends Component {
     this.setState({
       requestButtonTitle: this.state.buttonStates[1],
     });
-    let timerDuration = this.props.progressDuration ? this.props.progressDuration : DEFAULT_ACTION_TIMER
+    let timerDuration = this.props.progressDuration;
     Animated.timing(this.state.pressAction, {
       duration: timerDuration,
       toValue: 1
@@ -59,7 +59,7 @@ class PgButton extends Component {
     });
     var bgColor = this.state.pressAction.interpolate({
         inputRange: [0, 1],
-        outputRange: this.props.progressColors ? this.props.progressColors : DEFAULT_PROGRESS_COLORS
+        outputRange: this.props.progressColors
     })
     return {
         width: width,
@@ -69,7 +69,6 @@ class PgButton extends Component {
   }
 
   render() {
-
     return (
       <TouchableOpacity
         disabled={(this.state.requestButtonEnabled === false) ? true : false}
@@ -84,6 +83,12 @@ class PgButton extends Component {
     );
   }
 }
+
+PgButton.defaultProps = {
+    progressDuration: DEFAULT_ACTION_TIMER,
+    states: DEFAULT_STATES,
+    progressColors: DEFAULT_PROGRESS_COLORS,
+};
 
 export default PgButton;
 
